@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Code for the Shanti Admin Features feature.
+ */
+
+include_once 'shanti_admin_features.features.inc';
+
+
+/*
+ * Defines regular paths to use Admin theme or admin paths to use regular theme
+ *    see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_admin_paths/7
+ */
+ 
+function shanti_admin_features_admin_paths_alter(&$paths)
+ {
+ 	$paths['shanti/admin/*'] = TRUE;
+ }

@@ -1,0 +1,73 @@
+{ 
+	"version": "1.0",
+	"name": "Shanti Repostiories",
+	"language": "und",
+	"links": {
+	   "local": [
+            {"class": "overview", "text": "Home", "href": "http://mandala.dd:8083/"},
+            {"class": "subjects", "text": "Subjects", "href": "http://mandala.dd:8083/subjects"},
+            {"class": "places", "text": "Places", "href": "http://mandala.dd:8083/places"},
+            {"class": "texts", "text": "Texts", "href": "http://texts.dd:8083/"},
+            {"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+            {"class": "sources", "text": "Sources", "href": "http://sources.dd:8083/"},
+            {"class": "audio-video", "text": "Audio-Video", "href": "http://audio-video.dd:8083/"},
+            {"class": "images", "text": "Images", "href": "http://images.dd:8083/"},
+            {"class": "visuals", "text": "Visuals", "href": "http://visuals.dd:8083/"}
+        ],
+        "local (https)": [
+            {"class": "overview", "text": "Home", "href": "https://mandala.dd:8443/"},
+            {"class": "subjects", "text": "Subjects", "href": "https://mandala.dd:8443/subjects"},
+            {"class": "places", "text": "Places", "href": "https://mandala.dd:8443/places"},
+            {"class": "texts", "text": "Texts", "href": "https://texts.dd:8443/"},
+            {"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+            {"class": "sources", "text": "Sources", "href": "https://sources.dd:8443/"},
+            {"class": "audio-video", "text": "Audio-Video", "href": "https://audio-video.dd:8443/"},
+            {"class": "images", "text": "Images", "href": "https://images.dd:8443/"},
+            {"class": "visuals", "text": "Visuals", "href": "https://visuals.dd:8443/"}
+        ],
+        "predev": [
+            {"class": "overview", "text": "Home", "href": "https://mandala-predev.shanti.virginia.edu/"},
+            {"class": "subjects", "text": "Subjects", "href": "https://mandala-predev.shanti.virginia.edu/subjects"},
+            {"class": "places", "text": "Places", "href": "https://mandala-predev.shanti.virginia.edu/places"},
+            {"class": "texts", "text": "Texts", "href": "https://texts-predev.shanti.virginia.edu/"},
+            {"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+            {"class": "sources", "text": "Sources", "href": "https://sources-predev.shanti.virginia.edu/"},
+            {"class": "audio-video", "text": "Audio-Video", "href": "https://audio-video-predev.shanti.virginia.edu/"},
+            {"class": "images", "text": "Images", "href": "https://images-predev.shanti.virginia.edu/"},
+            {"class": "visuals", "text": "Visuals", "href": "https://visuals-predev.shanti.virginia.edu/"}
+         ],
+		"dev": [
+			{"class": "overview", "text": "Home", "href": "https://mandala-dev.shanti.virginia.edu/"},
+			{"class": "subjects", "text": "Subjects", "href": "https://mandala-dev.shanti.virginia.edu/subjects"},
+			{"class": "places", "text": "Places", "href": "https://mandala-dev.shanti.virginia.edu/places"},
+			{"class": "texts", "text": "Texts", "href": "https://texts-dev.shanti.virginia.edu/"},
+			{"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+			{"class": "sources", "text": "Sources", "href": "https://sources-dev.shanti.virginia.edu/"},
+			{"class": "audio-video", "text": "Audio-Video", "href": "https://audio-video-dev.shanti.virginia.edu/"},
+			{"class": "images", "text": "Images", "href": "https://images-dev.shanti.virginia.edu/"},
+			{"class": "visuals", "text": "Visuals", "href": "https://visuals-dev.shanti.virginia.edu/"}
+		],
+		"staging": [
+			{"class": "overview", "text": "Home", "href": "https://mandala-stage.shanti.virginia.edu/"},
+			{"class": "subjects", "text": "Subjects", "href": "https://mandala-stage.shanti.virginia.edu/subjects"},
+			{"class": "places", "text": "Places", "href": "https://mandala-stage.shanti.virginia.edu/places"},
+			{"class": "texts", "text": "Texts", "href": "https://texts-stage.shanti.virginia.edu/"},
+			{"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+			{"class": "sources", "text": "Sources", "href": "https://sources-stage.shanti.virginia.edu/"},
+			{"class": "audio-video", "text": "Audio-Video", "href": "https://audio-video-stage.shanti.virginia.edu/"},
+			{"class": "images", "text": "Images", "href": "https://images-stage.shanti.virginia.edu/"},
+			{"class": "visuals", "text": "Visuals", "href": "https://visuals-stage.shanti.virginia.edu/"}
+		],
+		"production": [
+			{"class": "overview", "text": "Home", "href": "https://mandala.shanti.virginia.edu/"},
+			{"class": "subjects", "text": "Subjects", "href": "https://mandala.shanti.virginia.edu/subjects"},
+			{"class": "places", "text": "Places", "href": "https://mandala.shanti.virginia.edu/places"},
+			{"class": "texts", "text": "Texts", "href": "https://texts.shanti.virginia.edu/"},
+			{"class": "logo-shanti", "text": "Knowledge Base", "href": "https://wiki.shanti.virginia.edu/display/KB/Home"},
+			{"class": "sources", "text": "Sources", "href": "https://sources.shanti.virginia.edu/"},
+			{"class": "audio-video", "text": "Audio-Video", "href": "https://audio-video.shanti.virginia.edu/"},
+			{"class": "images", "text": "Images", "href": "https://images.shanti.virginia.edu/"},
+			{"class": "visuals", "text": "Visuals", "href": "https://visuals.shanti.virginia.edu/"}
+		]
+	}
+}

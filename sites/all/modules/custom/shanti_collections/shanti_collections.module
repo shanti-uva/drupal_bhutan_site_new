@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Code for the SHANTI Collections feature.
+ */
+
+include_once 'shanti_collections.features.inc';
+
+/**
+ * Custom Code added by ndg8f (Nov. 12, 2016)
+ * Add block with "Add Collection" button.
+ */
+
+function shanti_collections_block_info() {
+    $blocks=array();
+    $blocks['add_shanti_collection'] = array(
+        'info' => 'Create a Collection Block',
+        'visibility' => BLOCK_VISIBILITY_LISTED,
+    );
+   return $blocks;
+}
+
+/**
+ * Implements hook_block_list_alter to remove block for non-authenticated users
+ */
+function shanti_collections_block_list_alter(&$blocks) {
+    // see http://drupal.stackexchange.com/questions/69861/how-do-i-programmatically-assign-the-access-to-a-block
+    if(!user_is_logged_in()) {
+        foreach($blocks as $bid => $blk) {
+            if ($blk->delta == "add_shanti_collection") {
+                unset($blocks[$bid]);
+                break;
+            }
+        }
+    }
+}
+
+/**
+ * Implements hook_block_view
+ */
+function shanti_collections_block_view($delta) {
+    switch($delta) {
+        case 'add_shanti_collection':
+            return shanti_collections_add_collection_block();
+            break;
+    }
+}
+
+/**
+ * Custom function to display the add collection block
+ */
+function shanti_collections_add_collection_block() {
+    $block['subject'] = t('Create A Collection');
+    $block['content'] = '<div><p>' . t('Create a new collection of resources grouped by project or theme:') . '</p>
+            <a href="' . url('node/add/collection') . '">
+                <button class="btn-block btn btn-primary btn-icon" value="Add New Collection">
+                    <span class="icon shanticon-grid"></span>
+                    <span>' . t('Add New Collection') . '</span></button>
+        </div>';
+    return $block;
+}

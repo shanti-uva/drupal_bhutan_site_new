@@ -1,0 +1,212 @@
+<?php
+
+/**
+* @file
+ * Miscellaneous functions for Shanti Sources site.
+ */
+ 
+// CURRYEAR is defined in sources_views.module line 7
+
+function sources_misc_menu() {
+	$items['group/%/%/admin/people/view'] = array(
+        'access callback' => TRUE,
+        'page callback' => 'sources_misc_grouptabs',
+        'page arguments' => array(2, 'view'),
+        'title' => 'View',
+        'weight' => 1,
+        'type' => MENU_LOCAL_TASK,
+    );
+	$items['group/%/%/admin/people/admin'] = array(
+        'access callback' => TRUE,
+        'page callback' => 'sources_misc_grouptabs',
+        'page arguments' => array(2, 'admin'),
+        'title' => 'Members',
+        'weight' => 2,
+        'type' => MENU_LOCAL_TASK,
+    );
+    $items['sources-api/ajax/%'] = array(
+        'page callback' => 'sources_misc_node_ajax',
+        'page arguments' => array(2),
+        'type' => MENU_CALLBACK,
+        'access callback' => TRUE,
+    );
+    $items['sources-api/embed/%'] = array(
+        'page callback' => 'sources_misc_node_embed',
+        'page arguments' => array(2),
+        'type' => MENU_CALLBACK,
+        'access callback' => 'user_access',
+        'access arguments' => array('access content'),
+    );
+
+	return $items;
+}
+
+/**
+ * Returns html for node's div without drupal wrappings for embedding via ajax
+ */
+function sources_misc_node_ajax($nid) {
+    $node = node_load($nid);
+    $build = node_view($node,'full');
+    print drupal_render($build);
+}
+
+/**
+ * Returns full html with custom css that turns off headers, footers, and search flyout for IFrame embedding
+ */
+function sources_misc_node_embed($nid) {
+    $css_path = drupal_get_path('module', 'biblio_zotero') . '/css/biblio_zotero_embed.css';
+    $res = drupal_add_css($css_path);
+    $node = node_load($nid);
+    $build = node_view($node,'full');
+    print drupal_render($build);
+}
+
+function sources_misc_grouptabs($nid, $mode) {
+	$url = "node/$nid";
+	if ($mode == 'admin') {
+		$url .= "/group";
+		drupal_goto($url);
+	}
+	else if ($mode == 'view') {
+		drupal_goto($url);
+	}
+}
+
+/**
+ * Implements hook_node_access
+ */
+function sources_misc_node_access($node, $op, $account)  {
+    if ($op == 'view') {
+        global $user;
+        // When item set to private but not part of a collection, only allow user who created it to see it.
+        if ($node->group_content_access['und'][0]['value'] == 2 && empty($node->field_og_collection_ref) && $node->uid != $user->uid) { return NODE_ACCESS_DENY; }
+        return NODE_ACCESS_IGNORE;
+    }
+}
+ 
+/**
+* Implements hook admin paths
+ * 
+ *  Define custom paths that are either admins or not. Use Shanti theme and JS for group admin
+ */
+function sources_misc_admin_paths_alter(&$paths) {
+	$paths['node/*/group'] = FALSE;
+	$paths['group/*/*/admin/*'] = FALSE;
+}
+
+
+/**
+ * Adding validation to biblio nodes
+ */
+function sources_misc_node_validate($node, $form, &$form_state) {
+    if ($node->type == 'biblio') {
+        if (!empty($form_state['input']['biblio_year'])) {
+            // In Biblio 9998 year means "In Press" and 9999 means "Submitted". See page at /admin/config/content/biblio/basic
+            if ($form_state['input']['biblio_year'] != 9998 || $form_state['input']['biblio_year'] != 9999) { 
+                if ($form_state['input']['biblio_year'] > CURRYEAR) {
+                     form_set_error('biblio_year', t('Year of Publication can not be in the future.'));
+                }
+            }
+        }
+    }
+}
+
+/** 
+ * Implement this function if you need to change the doc sent to the solr KM asset index.
+ *   Called from _shanti_kmaps_fields_get_solr_doc in shanti_kmaps_fields.module line 483
+ **/
+function sources_misc_kmaps_fields_solr_doc_alter(&$solrdoc) {
+   foreach ($solrdoc as $n => &$sdoc) {
+       $node = node_load($sdoc['id']);
+       $ew = entity_metadata_wrapper('node', $node);
+       
+       $sdoc['asset_subtype'] = $node->biblio_type_name;
+       
+       // Deal with contributors
+       $sdoc['creator'] = array();
+       foreach ($node->biblio_contributors as $person) {
+           $sdoc['creator'][] = $person['name'];
+       }
+       
+        // Language
+       if (!empty($node->field_biblio_language)) { $sdoc['node_lang'] = $node->field_biblio_language['und'][0]['value']; }
+       
+       // Deal with description
+       $summ = '';
+       $capt = '';
+       $desc = $ew->biblio_abst_e->value();
+       if (!empty($desc)) {
+           $desc_txt = strip_tags($desc);
+           $summ = substr($desc_txt, 0, 747);
+           if (!empty($summ)) {$summ .= '...';}
+           $capt = substr($desc_txt, 0, 137);
+           if (!empty($capt)) { $capt .= '...';}
+       }
+       $sdoc['summary'] = array($summ);
+       $sdoc['caption'] = array($capt);
+       
+       if (!empty($ew->field_featured_image) && $fimg = $ew->field_featured_image->value()) {
+            $uri = $fimg['uri'];
+           $style_name = 'large';
+            $sdoc['url_thumb'] = image_style_url($style_name, $uri);
+       }
+   }
+}
+
+function sources_misc_taxonomy_term_view($term, $view_mode, $langcode) {
+    if ($view_mode == "full" && $term->vocabulary_machine_name == 'collections') {
+        $tid = $term->tid;
+        $markup = '<div class="taxonomy-collections-info">';
+        $markup .= '<h1>' . $term->name . '</h1>';
+        $query = db_select('taxonomy_index', 't');
+        $query->addTag('node_access'); // is this necessary?
+        $query->condition('tid', $tid);
+        $query->addField('t', 'nid');
+        $res = $query->execute()->fetchCol();
+        $total = count($res);
+        $markup .= '<p>This category has ' . $total . ' sources.</p></div>';
+        $term->content['taxonomy-collections-info'] = array(
+            '#markup' => $markup,
+            '#weight' => -49,
+          );
+    }
+}
+
+function sources_misc_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'biblio_node_form') {
+        if (strstr($form['#action'], '/add')) {
+            drupal_set_title(t('Create a Source'));
+        }
+        /*
+        if (empty($form['group_content_access']['und']['#default_value'])) {
+            $form['group_content_access']['und']['#default_value'] = 0;
+        }
+         *
+         */
+        $params = drupal_get_query_parameters();
+        if (!empty($params['field_og_collection_ref'])) {
+            $form['field_og_collection_ref']['und'][0]['default']['#default_value'] = $params['field_og_collection_ref'];
+        }
+    }
+}
+
+function sources_misc_node_presave($node) {
+    $params = drupal_get_query_parameters();
+    if (isset($params['field_og_collection_ref'])) {
+        $node->field_og_collection_ref['und'][0]['target_id'] = $params['field_og_collection_ref'];
+    }
+}
+
+function sources_misc_get_author_types($type='all') {
+    $result = db_query("SELECT * FROM {biblio_contributor_type_data} b");
+    $auth_types = array();
+    foreach($result as $row) {
+        $auth_types[$row->auth_type]= $row->title;
+    }
+    if ($type == 'all') {
+        return $auth_types;
+    } else if (isset($auth_types[$type])) {
+        return $auth_types[$type];
+    }
+    return FALSE;
+}

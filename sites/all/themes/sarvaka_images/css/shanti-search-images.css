@@ -1,0 +1,51 @@
+.search-result .thumbnail {
+    max-height: 124px;
+    overflow: hidden;
+}
+
+.input-section{
+	padding-top:0;
+}
+
+.input-section .form-type-textfield{
+	margin-top:0;
+}
+
+.input-section .advanced-view{
+	margin-top: -3.25rem;
+	padding-left: 0.5rem;
+}
+
+.input-section .advanced-view .form-group{
+	border-top:none;
+}
+
+.input-section .input-group .btn.btn-default{
+	font-size: 1.65rem;
+}
+
+.input-section .input-group .glyphicon-chevron-right{
+	position: relative;
+	top: .3rem;
+}
+
+
+/* no idea why these settings are needed since the markup appears the same as sarvaka */
+.input-section .shanticon-magnify{
+	position: absolute;
+	left: 2.2rem;
+	top: 2.35rem;
+}
+
+.input-section div.contextual-links-wrapper{
+	position: absolute;
+	top: 0.2rem;
+}
+
+.input-section .advanced-view{
+	margin-top: -3.5rem;
+}
+
+.input-section .advanced-view .form-group{
+	margin: 0.7rem
+}

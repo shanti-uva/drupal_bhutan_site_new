@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file
+ * Code for the Media Listings feature.
+ */
+
+include_once('media_listings.features.inc');
+
+function media_listings_init() {
+    if (current_path() == 'mycontent/workflow') {
+        drupal_add_js(drupal_get_path('module', 'media_listings') . '/media_listings.js');
+    }
+}
+
+function media_listings_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'views_exposed_form') {
+        $cp =  current_path();
+        if ($cp == 'mycontent/workflow' || $cp == 'workflow/all' ) {
+            // Reconfigure options for video entry operator to use as Media Present drop down
+            $form['field_video_entryid_op']['#options'] = array(
+                'regular_expression' => t('- Any -'),
+                 'empty' => t('No Media Present'),
+                 'not empty' => t('Media Present')
+            );
+            // Reconfigure options for transcript
+            $form['field_transcript_fid_op']['#options'] = array(
+                'regular_expression' => t('- Any -'),
+                 'empty' => t('No Transcript Present'),
+                 'not empty' => t('Transcript Present')
+            );
+        }
+    } else if ($form_id == 'views_form_shanti_av_content_admin_page_page') {
+        drupal_add_css('.views-exposed-form .views-exposed-widget > div { float: left; padding: .1em 1em 0 0;}', array('type' => 'inline'));
+    }
+}

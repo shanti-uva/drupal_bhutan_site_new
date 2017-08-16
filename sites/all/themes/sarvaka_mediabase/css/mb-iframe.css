@@ -1,0 +1,63 @@
+/**
+* -------------------------------------------
+* DO NOT EDIT THIS PAGE'S CODE
+* REFER TO IFRAME CSS BELOW TO EDIT IFRAME
+* /shanti-main-mediabase.css
+* -------------------------------------------
+*/
+
+
+/**
+*
+* DO NOT EDIT
+*
+*/
+
+
+
+.in-frame header.header-banner,
+.in-frame header.banner .page-title .icon,
+.in-frame header.banner .breadwrap, 
+.in-frame header.banner .banner-tabs,
+.in-frame #search-flyout,
+.in-frame footer.footer,
+.in-frame #admin-footer,
+.in-frame #admin-menu
+{
+	display: none !important;
+	height: 0px !important;
+	width: 0px !important;
+}
+
+body.in-frame.html {
+	margin-top: 0px !important;
+}
+
+.in-frame header.col-xs-12.titlearea.banner, 
+.in-frame header.col-xs-12.titlearea.banner.has-tabs,
+.in-frame header.col-xs-12.titlearea.banner > div
+{
+	color: #444 !important;
+	background-color: transparent !important;
+	box-shadow: none !important;
+	border: none !important;
+	height: 1.5rem;
+}
+
+.in-frame  header.banner.titlearea .page-title-text {
+	text-shadow: none !important;
+	color: #444 !important;
+	padding-left: 12px !important;
+	box-shadow: none !important;
+	border: none !important;
+	line-height: 2em !important;
+}
+
+.in-frame header.banner .page-title {
+	padding-top: 0px;
+}
+
+/** Hide JIRA feedback button **/
+.in-frame .atlwdg-trigger.atlwdg-SUBTLE {
+	display: none;
+}
